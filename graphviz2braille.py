@@ -8,7 +8,9 @@ class TactileSchematics(QMainWindow):
         widget = QWidget()
         self._grid = QGridLayout(widget)
         self.setCentralWidget(widget)
-        self._grid.addWidget(QLabel('HELLO'), 0, 0)
+
+        self._grid.addWidget(QLabel(self.tr('Input-File:')), 0, 0)
+        self._grid.addWidget(QLabel(self.tr('Select-Font:')), 1, 0)
 
 if __name__ == '__main__':
     app = QApplication([])
