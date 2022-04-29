@@ -2,9 +2,10 @@ import os
 import sys
 import louis
 
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtWidgets import QMainWindow, QGridLayout, QLabel, QApplication, QWidget
 from PySide6.QtWidgets import QLineEdit, QPushButton, QHBoxLayout, QComboBox, QSpacerItem
-from PySide6.QtWidgets import QFontComboBox, QSizePolicy, QCheckBox
+from PySide6.QtWidgets import QFontComboBox, QSizePolicy, QCheckBox, QStyle
 
 def create_hspacer() -> QSpacerItem:
     return QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -57,7 +58,14 @@ class TactileSchematics(QMainWindow):
         self._grid.addWidget(self._tactileAndNormalPrint, row, 0, 1, 2)
         row += 1
 
-        #TODO: warning label
+        hbox = QHBoxLayout()
+        hbox.addItem(create_hspacer())
+        self._warning = IconLabel(QStyle.SP_MessageBoxWarning, 'WARNING')
+        self._warning.setVisible(False)
+        hbox.addWidget(self._warning)
+        hbox.addItem(create_hspacer())
+        self._grid.addLayout(hbox, row, 0, 1, 2)
+        row += 1
 
         hbox = QHBoxLayout()
         hbox.addItem(create_hspacer())
@@ -68,6 +76,35 @@ class TactileSchematics(QMainWindow):
     
     def _chooseFile(self):
         pass
+
+class IconLabel(QWidget):
+    def __init__(self, standardPixmap: QStyle.PrimitiveElement, text: str) -> None:
+        super().__init__()
+        self._create_ui(standardPixmap, text)
+    
+    def _create_ui(self, standardPixmap: QStyle.PrimitiveElement, text: str):
+        hbox = QHBoxLayout(self)
+        self._labelPixmap = QLabel()
+        hbox.addWidget(self._labelPixmap)
+        self._labelText = QLabel()
+        hbox.addWidget(self._labelText)
+        hbox.addItem(create_hspacer())
+        self.setText(text)
+        self.setPixmap(standardPixmap)
+        self._labelText.setFocusPolicy(Qt.TabFocus)
+        pixmap_title = str(standardPixmap).split('.')[-1].replace('SP_MessageBox', '')
+        self._labelText.setAccessibleName(self.tr(pixmap_title))
+        self._labelText.setAccessibleDescription(text)
+    
+    def setText(self, text:str):
+        self._labelText.setText(text)
+        self._labelText.setAccessibleDescription(text)
+    
+    def setPixmap(self, pixmap: QStyle.PrimitiveElement):
+        pixmap = self.style().standardPixmap(pixmap)
+        size = self.fontInfo().pointSize()
+        pixmap = pixmap.scaled(size, size)
+        self._labelPixmap.setPixmap(pixmap)
 
 if __name__ == '__main__':
     dataPath = os.path.dirname(__file__).encode('utf-8')
