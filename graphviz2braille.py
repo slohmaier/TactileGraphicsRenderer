@@ -4,7 +4,7 @@ import louis
 
 from PySide6.QtWidgets import QMainWindow, QGridLayout, QLabel, QApplication, QWidget
 from PySide6.QtWidgets import QLineEdit, QPushButton, QHBoxLayout, QComboBox, QSpacerItem
-from PySide6.QtWidgets import QFontComboBox, QSizePolicy
+from PySide6.QtWidgets import QFontComboBox, QSizePolicy, QCheckBox
 
 def create_hspacer() -> QSpacerItem:
     return QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -52,6 +52,19 @@ class TactileSchematics(QMainWindow):
         hbox.addItem(create_hspacer())
         self._grid.addLayout(hbox, row, 1)
         row += 1
+
+        self._tactileAndNormalPrint = QCheckBox(self.tr('Create tactile and normal print'))
+        self._grid.addWidget(self._tactileAndNormalPrint, row, 0, 1, 2)
+        row += 1
+
+        #TODO: warning label
+
+        hbox = QHBoxLayout()
+        hbox.addItem(create_hspacer())
+        button = QPushButton(self.tr('Convert'))
+        hbox.addWidget(button)
+        hbox.addItem(create_hspacer())
+        self._grid.addLayout(hbox, row, 0, 1, 2)
     
     def _chooseFile(self):
         pass
