@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QFontComboBox, QSizePolicy, QCheckBox, QStyle
 def create_hspacer() -> QSpacerItem:
     return QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-class TactileSchematics(QMainWindow):
+class TactileGraphicsRenderer(QMainWindow):
     def __init__(self, louisDataPath) -> None:
         super().__init__()
 
@@ -112,6 +112,6 @@ if __name__ == '__main__':
         raise Exception('Cannot configure liblouis!')
 
     app = QApplication([])
-    window = TactileSchematics(dataPath.decode('utf-8'))
+    window = TactileGraphicsRenderer(dataPath.decode('utf-8'))
     window.show()
     sys.exit(app.exec())
