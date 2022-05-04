@@ -9,6 +9,6 @@ if [ ! -e "$1" ] || [ "x$2" = "x" ]; then
     exit 1
 fi
 
-dot -Tsvg "-Nfontname=Braille29 DE" -Nfontsize=29 \
+dot -Tpng "-Nfontname=Braille29 DE" -Nfontsize=29 \
     "-Efontname=Braille29 DE" -Efontsize=29 \
     $1 > $2
